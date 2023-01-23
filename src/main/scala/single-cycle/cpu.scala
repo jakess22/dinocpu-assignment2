@@ -52,14 +52,59 @@ class SingleCycleCPU(implicit val conf: CPUConfig) extends BaseCPU {
   }
   io.dmem.writedata := registers.io.readdata2
 
-  when (instruction(6,0) === "b0000011".U) { // ld
+  when (instruction(6,0) === "b0000011".U && instruction(14,12) === "b011".U) { // ld
     io.dmem.memread := 1.U
     io.dmem.maskmode := 3.U
     io.dmem.sext := 1.U
     io.dmem.memwrite := 0.U
-  } .elsewhen (instruction(6,0) === "b0100011".U) { // sd
+  } .elsewhen (instruction(6,0) === "b0000011".U && instruction(14,12) === "b000".U) { // lb
+    io.dmem.memread := 1.U
+    io.dmem.maskmode := 0.U
+    io.dmem.sext := 1.U
+    io.dmem.memwrite := 0.U
+  } .elsewhen (instruction(6,0) === "b0000011".U && instruction(14,12) === "b001".U) { // lh
+    io.dmem.memread := 1.U
+    io.dmem.maskmode := 1.U
+    io.dmem.sext := 1.U
+    io.dmem.memwrite := 0.U
+  } .elsewhen (instruction(6,0) === "b0000011".U && instruction(14,12) === "b010".U) { // lw
+    io.dmem.memread := 1.U
+    io.dmem.maskmode := 2.U
+    io.dmem.sext := 1.U
+    io.dmem.memwrite := 0.U
+  } .elsewhen (instruction(6,0) === "b0000011".U && instruction(14,12) === "b100".U) { // lbu
+    io.dmem.memread := 1.U
+    io.dmem.maskmode := 0.U
+    io.dmem.sext := 0.U
+    io.dmem.memwrite := 0.U
+  } .elsewhen (instruction(6,0) === "b0000011".U && instruction(14,12) === "b101".U) { // lhu
+    io.dmem.memread := 1.U
+    io.dmem.maskmode := 1.U
+    io.dmem.sext := 0.U
+    io.dmem.memwrite := 0.U
+  } .elsewhen (instruction(6,0) === "b0000011".U && instruction(14,12) === "b110".U) { // lwu
+    io.dmem.memread := 1.U
+    io.dmem.maskmode := 2.U
+    io.dmem.sext := 0.U
+    io.dmem.memwrite := 0.U
+  } .elsewhen (instruction(6,0) === "b0100011".U && instruction(14,12) === "b011".U) { // sd
     io.dmem.memread := 0.U
     io.dmem.maskmode := 3.U
+    io.dmem.sext := 0.U
+    io.dmem.memwrite := 1.U
+  } .elsewhen (instruction(6,0) === "b0100011".U && instruction(14,12) === "b000".U) { // sb
+    io.dmem.memread := 0.U
+    io.dmem.maskmode := 0.U
+    io.dmem.sext := 0.U
+    io.dmem.memwrite := 1.U
+  } .elsewhen (instruction(6,0) === "b0100011".U && instruction(14,12) === "b001".U) { // sh
+    io.dmem.memread := 0.U
+    io.dmem.maskmode := 1.U
+    io.dmem.sext := 0.U
+    io.dmem.memwrite := 1.U
+  } .elsewhen (instruction(6,0) === "b0100011".U && instruction(14,12) === "b010".U) { // sw
+    io.dmem.memread := 0.U
+    io.dmem.maskmode := 2.U
     io.dmem.sext := 0.U
     io.dmem.memwrite := 1.U
   } .otherwise {
