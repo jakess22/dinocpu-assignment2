@@ -66,6 +66,18 @@ class Control extends Module {
       BitPat("b0110011") -> List(     1.U,               0.U,   0.U,     0.U,     0.U,             1.U,           0.U,       1.U),
       // R-format 32-bit operands
       BitPat("b0111011") -> List(     3.U,               0.U,   0.U,     0.U,     0.U,             1.U,           0.U,       1.U),
+      // I-format 64-bit operands
+      BitPat("b0010011") -> List(     2.U,               0.U,   0.U,     0.U,     2.U,             1.U,           0.U,       1.U),
+      // I-format 32-bit operands
+      BitPat("b0011011") -> List(     4.U,               0.U,   0.U,     0.U,     2.U,             1.U,           0.U,       1.U),
+      // ld
+      BitPat("b0000011") -> List(     2.U,               0.U,   1.U,     0.U,     2.U,             1.U,           2.U,       1.U),
+      // lui
+      BitPat("b0110111") -> List(     0.U,               0.U,   0.U,     0.U,     2.U,             1.U,           1.U,       1.U),
+      // auipc
+      BitPat("b0010111") -> List(     2.U,               0.U,   0.U,     1.U,     2.U,             1.U,           0.U,       1.U),
+      // sd
+      BitPat("b0100011") -> List(     2.U,               0.U,   2.U,     0.U,     2.U,             0.U,           0.U,       1.U)
       ) // Array
     ) // ListLookup
 
