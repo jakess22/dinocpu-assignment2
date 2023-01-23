@@ -36,4 +36,113 @@ class ALUControl extends Module {
 
   // Your code goes here
 
+  when (io.aluop === "b010".U) { // I-64
+    when (io.funct3 === "b000".U) { // ADDI
+      io.operation := "b01100".U
+    } .elsewhen (io.funct3 === "b010".U) { // SLTI
+      io.operation := "b01010".U
+    } .elsewhen (io.funct3 === "b011".U) { // SLTIU
+      io.operation := "b01011".U
+    } .elsewhen (io.funct3 === "b111".U) { // ANDI
+      io.operation := "b00000".U
+    } .elsewhen (io.funct3 === "b110".U) { // ORI
+      io.operation := "b00001".U
+    } .elsewhen (io.funct3 === "b100".U) { // XORI
+      io.operation := "b00010".U
+    } .elsewhen (io.funct3 === "b001".U) { // SLLI
+      io.operation := "b00110".U
+    } .elsewhen (io.funct3 === "b101".U) { 
+      when (io.funct7 === "b0000000".U) { // SRLI
+        io.operation := "b01000".U
+      } .elsewhen (io.funct7 === "b0100000".U) { // SRAI
+      io.operation := "b00100".U
+      } 
+    } 
+  } .elsewhen (io.aluop === "b100".U) { // I-32
+    when(io.funct3 === "b000".U) { //ADDIW
+      io.operation := "b01101".U
+    } .elsewhen (io.funct3 === "b001".U) { // SLIW
+      io.operation := "b00111".U 
+    } .elsewhen (io.funct3 === "b101".U) { 
+      when (io.funct7 === "b0000000".U) { // SRLIW
+        io.operation := "b01001".U 
+      } .otherwise { // SRAIW
+        io.operation := "b00101".U 
+      }
+    }
+  } .elsewhen (io.aluop === "b001".U) { 
+    when (io.funct7 === "b0000000".U) { // RI-64
+      when (io.funct3 === "b000".U)  { // ADD
+        io.operation := "b01100".U 
+      } .elsewhen (io.funct3 === "b001".U) { // SLL
+        io.operation := "b00110".U
+      } .elsewhen(io.funct3 === "b010".U) { // SLT
+        io.operation := "b01010".U
+      } .elsewhen (io.funct3 === "b011".U) { // SLTU
+        io.operation := "b01011".U
+      } .elsewhen (io.funct3 === "b100".U) { // XOR
+        io.operation := "b00010".U
+      } .elsewhen (io.funct3 === "b101".U) { // SRL
+        io.operation := "b01000".U
+      } .elsewhen (io.funct3 === "b110".U) { // OR
+        io.operation := "b00001".U
+      } .elsewhen (io.funct3 === "b111".U) { // AND
+        io.operation := "b00000".U
+      }
+    } .elsewhen (io.funct7 === "b0100000".U) { // RI-64
+      when (io.funct3 === "b000".U) { // SUB
+        io.operation := "b01110".U
+      } .elsewhen (io.funct3 === "b101".U) { // SRA
+        io.operation := "b00100".U
+      } 
+    } .elsewhen (io.funct7 === "b0000001".U) { // M-64
+      when (io.funct3 === "b000".U) { // MUL
+        io.operation := "b10000".U
+      } .elsewhen (io.funct3 === "b001".U) { // MULH
+        io.operation := "b10010".U
+      } .elsewhen (io.funct3 === "b010".U) { // MULHSU
+        io.operation := "b11100".U
+      } .elsewhen (io.funct3 === "b011".U) { // MULHU
+        io.operation := "b10011".U
+      } .elsewhen (io.funct3 === "b100".U) { // DIV
+        io.operation := "b10100".U
+      } .elsewhen (io.funct3 === "b101".U) { // DIVU
+        io.operation := "b10101".U
+      } .elsewhen (io.funct3 === "b110".U) { // REM
+        io.operation := "b11000".U
+      } .elsewhen (io.funct3 === "b111".U) { // REMU
+        io.operation := "b11001".U
+      } 
+    }
+  } .elsewhen (io.aluop === "b011".U) { 
+    when (io.funct7 === "b0000000".U) { // RI-32
+      when (io.funct3 === "b000".U)  { // ADDW
+        io.operation := "b01101".U 
+      } .elsewhen (io.funct3 === "b001".U) { // SLLW
+        io.operation := "b00111".U
+      } .elsewhen (io.funct3 === "b101".U) { // SRLW
+        io.operation := "b01001".U
+      } 
+    } .elsewhen (io.funct7 === "b0100000".U) { // RI-32
+      when (io.funct3 === "b000".U)  { // SUBW
+        io.operation := "b01111".U 
+      } .elsewhen (io.funct3 === "b101".U) { // SRAW
+        io.operation := "b00101".U
+      } 
+    } .elsewhen (io.funct7 === "b0000001".U) { // M-32
+      when (io.funct3 === "b100".U)  { // DIVW
+        io.operation := "b10110".U 
+      } .elsewhen (io.funct3 === "b101".U) { // DIVUW
+        io.operation := "b10111".U
+      } .elsewhen (io.funct3 === "b110".U) { // REMW
+        io.operation := "b11010".U
+      } .elsewhen (io.funct3 === "b111".U) { // REMUW
+        io.operation := "b11011".U
+      } .elsewhen (io.funct3 === "b000".U) { // MULW
+        io.operation := "b10001".U
+      } 
+    }
+  }
+
 }
+  
